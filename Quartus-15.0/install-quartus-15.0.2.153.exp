@@ -1,0 +1,34 @@
+#!/usr/bin/env expect
+
+if { $::argc != 1 } {
+    puts "Error: no install path passed"
+    exit 1
+}
+
+set installpath [lindex $::argv 0]
+
+spawn ./QuartusSetupWeb-15.0.0.145-linux.run --mode text --installdir $installpath
+while 1 {
+    expect {
+        eof { break }
+        -re "Press \\\[Enter\\\] to continue *:" { send "\r" }
+        "Do you accept this license? \\\[y/n\\\]:" { send "y\r" }
+        -re "You already had Quartus II Web Edition.*installed in this directory, " { puts ""; exit }
+        "Quartus II Web Edition (Free)  \\\[Y/n\\\] :" { send "y\r" }
+        "Installation directory \\\[$installpath\\\]:" { send "\r" }
+        "Quartus II Web Edition (Free)  - Quartus II Help (822.6MB) \\\[Y/n\\\] :" { send "y\r" }
+        "Quartus II Web Edition (Free)  - Devices \\\[Y/n\\\] :" { send "y\r" }
+        "Quartus II Web Edition (Free)  - Devices - Arria II (529.0MB) \\\[Y/n\\\] :" { send "n\r" }
+        "Quartus II Web Edition (Free)  - Devices - Cyclone IV (507.3MB) \\\[Y/n\\\] :" { send "y\r" }
+        "Quartus II Web Edition (Free)  - Devices - Cyclone V (1169.4MB) \\\[Y/n\\\] :" { send "y\r" }
+        "Quartus II Web Edition (Free)  - Devices - MAX II/V (12.8MB) \\\[Y/n\\\] :" { send "y\r" }
+        "Quartus II Web Edition (Free)  - Devices - MAX 10 FPGA (304.5MB) \\\[Y/n\\\] :" { send "y\r" }
+        "Quartus II Web Edition (Free)  - Quartus II Update 15.0.2.153  (3793MB) \\\[Y/n\\\] :" { send "y\r" }
+        "ModelSim-Altera Starter Edition (Free) (3805.7MB) \\\[Y/n\\\] :" { send "y\r" }
+        "ModelSim-Altera Edition (3805.7MB) \\\[y/N\\\] :" { send "n\r" }
+        "Is the selection above correct? \\\[Y/n\\\]:" { send "y\r" }
+        "Create shortcuts on Desktop \\\[Y/n\\\]:" { send "n\r" }
+        "Launch Quartus II (64-bit) \\\[Y/n\\\]:" { send "n\r" }
+        "Provide your feedback at http://software.altera.com/feedback/15.0/installer \\\[y/N\\\]:" { send "n\r" }
+    }
+}
