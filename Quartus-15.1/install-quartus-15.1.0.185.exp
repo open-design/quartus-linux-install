@@ -1,0 +1,32 @@
+#!/usr/bin/env expect
+
+if { $::argc != 1 } {
+    puts "Error: no install path passed"
+    exit 1
+}
+
+set installpath [lindex $::argv 0]
+
+spawn ./QuartusLiteSetup-15.1.0.185-linux.run --mode text --installdir $installpath
+while 1 {
+    expect {
+        eof { break }
+        -re "Press \\\[Enter\\\] to continue *:" { send "\r" }
+        "Do you accept this license? \\\[y/n\\\]:" { send "y\r" }
+	-re "You already had Quartus Prime Lite Edition.*installed in this directory, " { puts ""; exit }
+        "Quartus Prime Lite Edition (Free)  \\\[Y/n\\\] :" { send "y\r" }
+        "Installation directory \\\[$installpath\\\]:" { send "\r" }
+	"Quartus Prime Lite Edition (Free)  - Devices \\\[Y/n\\\] :" { send "y\r" }
+        "Quartus Prime Lite Edition (Free)  - Devices - Arria II (529.3MB) \\\[Y/n\\\] :" { send "n\r" }
+	"Quartus Prime Lite Edition (Free)  - Devices - Cyclone IV (507.8MB) \\\[Y/n\\\] :" { send "y\r" }
+        "Quartus Prime Lite Edition (Free)  - Devices - Cyclone V (1196.9MB) \\\[Y/n\\\] :" { send "y\r" }
+        "Quartus Prime Lite Edition (Free)  - Devices - MAX II/V (13.1MB) \\\[Y/n\\\] :" { send "y\r" }
+	"Quartus Prime Lite Edition (Free)  - Devices - MAX 10 FPGA (348.5MB) \\\[Y/n\\\] :" { send "y\r" }
+	"ModelSim-Altera Starter Edition (Free) (4049.7MB) \\\[Y/n\\\] :" { send "y\r" }
+	"ModelSim-Altera Edition (4049.7MB) \\\[y/N\\\] :" { send "n\r" }
+        "Is the selection above correct? \\\[Y/n\\\]:" { send "y\r" }
+        "Create shortcuts on Desktop \\\[Y/n\\\]:" { send "n\r" }
+        "Launch Quartus Prime Lite Edition \\\[Y/n\\\]:" { send "n\r" }
+        "Provide your feedback at http://software.altera.com/feedback/15.1/installer \\\[y/N\\\]:" { send "n\r" }
+    }
+}
