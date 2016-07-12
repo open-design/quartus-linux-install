@@ -5,7 +5,7 @@ Download Quartus 13.1 or Quartus 15.0 installation files
 from https://www.altera.com/downloads/download-center.html
 into Quartus-13.1 or Quartus-15.0 subdir respectively.
 
-Check ypur Quartus installation files. E.g.:
+Check your Quartus installation files. E.g.:
 
     $ cd quartus-linux-install/Quartus-13.1
     Quartus-13.1 $ md5sum -c MD5SUMS
