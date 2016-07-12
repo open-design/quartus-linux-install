@@ -5,6 +5,8 @@ if { $::argc != 1 } {
     exit 1
 }
 
+set ::env(DISPLAY) ""
+
 set installpath [lindex $::argv 0]
 
 set yesno "\\\[\[Yy\]/\[Nn\]\\\]"
