@@ -7,28 +7,30 @@ if { $::argc != 1 } {
 
 set installpath [lindex $::argv 0]
 
+set yesno "\\\[\[Yy\]/\[Nn\]\\\]"
+
 proc handle_quartus_setup {installpath} {
     while 1 {
         expect {
             eof { break }
             -re "Press \\\[Enter\\\] to continue *:" { send "\r" }
-            "Do you accept this license? \\\[y/n\\\]:" { send "y\r" }
+            "Do you accept this license? $::yesno:" { send "y\r" }
             -re "You already had Quartus Prime Lite Edition.*installed in this directory, " { puts ""; exit }
-            "Quartus Prime Lite Edition (Free)  \\\[Y/n\\\] :" { send "y\r" }
+            "Quartus Prime Lite Edition (Free)  $::yesno :" { send "y\r" }
             "Installation \[Dd\]irectory \\\[$installpath\\\]:" { send "\r" }
-            "Quartus Prime Lite Edition (Free)  - Quartus Prime Help (378.2MB) \\\[Y/n\\\] :" { send "y\r" }
-            "Quartus Prime Lite Edition (Free)  - Devices \\\[Y/n\\\] :" { send "y\r" }
-            "Quartus Prime Lite Edition (Free)  - Devices - Arria II (536.5MB) \\\[Y/n\\\] :" { send "n\r" }
-            "Quartus Prime Lite Edition (Free)  - Devices - Cyclone IV (516.3MB) \\\[Y/n\\\] :" { send "y\r" }
-            "Quartus Prime Lite Edition (Free)  - Devices - Cyclone V (1225.4MB) \\\[Y/n\\\] :" { send "y\r" }
-            "Quartus Prime Lite Edition (Free)  - Devices - MAX II/V (13.0MB) \\\[Y/n\\\] :" { send "y\r" }
-            "Quartus Prime Lite Edition (Free)  - Devices - MAX 10 FPGA (350.4MB) \\\[Y/n\\\] :" { send "y\r" }
-            "ModelSim-Altera Starter Edition (Free) (4678.7MB) \\\[Y/n\\\] :" { send "y\r" }
-            "ModelSim-Altera Edition (4678.7MB) \\\[y/N\\\] :" { send "n\r" }
-            "Is the selection above correct? \\\[Y/n\\\]:" { send "y\r" }
-            "Create shortcuts on Desktop \\\[Y/n\\\]:" { send "n\r" }
-            "Launch Quartus Prime Lite Edition \\\[Y/n\\\]:" { send "n\r" }
-            "Provide your feedback at http://software.altera.com/feedback/16.0/installer \\\[y/N\\\]:" { send "n\r" }
+            "Quartus Prime Lite Edition (Free)  - Quartus Prime Help (378.2MB) $::yesno :" { send "y\r" }
+            "Quartus Prime Lite Edition (Free)  - Devices $::yesno :" { send "y\r" }
+            "Quartus Prime Lite Edition (Free)  - Devices - Arria II (536.5MB) $::yesno :" { send "n\r" }
+            "Quartus Prime Lite Edition (Free)  - Devices - Cyclone IV (516.3MB) $::yesno :" { send "y\r" }
+            "Quartus Prime Lite Edition (Free)  - Devices - Cyclone V (1225.4MB) $::yesno :" { send "y\r" }
+            "Quartus Prime Lite Edition (Free)  - Devices - MAX II/V (13.0MB) $::yesno :" { send "y\r" }
+            "Quartus Prime Lite Edition (Free)  - Devices - MAX 10 FPGA (350.4MB) $::yesno :" { send "y\r" }
+            "ModelSim-Altera Starter Edition (Free) (4678.7MB) $::yesno :" { send "y\r" }
+            "ModelSim-Altera Edition (4678.7MB) $::yesno :" { send "n\r" }
+            "Is the selection above correct? $::yesno:" { send "y\r" }
+            "Create shortcuts on Desktop $::yesno:" { send "n\r" }
+            "Launch Quartus Prime Lite Edition $::yesno:" { send "n\r" }
+            "Provide your feedback at http://software.altera.com/feedback/16.0/installer $::yesno:" { send "n\r" }
         }
     }
 }
