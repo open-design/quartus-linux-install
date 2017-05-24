@@ -1,0 +1,55 @@
+#!/usr/bin/env expect
+
+if { $::argc != 1 } {
+    puts "Error: no install path passed"
+    exit 1
+}
+
+set ::env(DISPLAY) ""
+
+set installpath [lindex $::argv 0]
+
+set yesno "\\\[\[Yy\]/\[Nn\]\\\]"
+set qple "Quartus Prime Lite Edition \\\(Free\\\)"
+
+proc handle_quartus_setup {} {
+    while 1 {
+        expect {
+            eof { break }
+            -re "Press \\\[Enter\\\] to continue *:" { send "\r" }
+            -re "You already had Quartus .* installed in this directory, .*, do you want to update that installation\\\? $::yesno:" {
+                puts ""
+                exit 1
+            }
+            -re "Warning: You don't have enough disk space in .* to install this " {
+                expect {
+                    -re "Press \\\[Enter\\\] to continue *:" {
+                        puts ""
+                        exit 1
+                    }
+                }
+            }
+            -re "Do you accept this license\\\? $::yesno:" { send "y\r" }
+            -re "Installation \[Dd\]irectory \\\[.*\\\]:" { send "\r" }
+            -re "$::qple *$::yesno :" { send "y\r" }
+            -re "$::qple *- Quartus Prime Help \\\(.*\\\) $::yesno :" { send "y\r" }
+            -re "$::qple *- Devices $::yesno :" { send "y\r" }
+            -re "$::qple *- Devices - Arria II \\\(.*\\\) $::yesno :" { send "n\r" }
+            -re "$::qple *- Devices - Cyclone IV \\\(.*\\\) $::yesno :" { send "y\r" }
+            -re "$::qple *- Devices - Cyclone 10 LP \\\(.*\\\) $::yesno :" { send "y\r" }
+            -re "$::qple *- Devices - Cyclone V \\\(.*\\\) $::yesno :" { send "y\r" }
+            -re "$::qple *- Devices - MAX II/V \\\(.*\\\) $::yesno :" { send "y\r" }
+            -re "$::qple *- Devices - MAX 10 FPGA \\\(.*\\\) $::yesno :" { send "y\r" }
+            -re "$::qple *- Quartus Prime Update .*\\\(.*\\\) $::yesno :" { send "y\r" }
+            -re "ModelSim - Intel FPGA Starter Edition \\\(Free\\\) \\\(.*\\\) $::yesno :" { send "n\r" }
+            -re "ModelSim - Intel FPGA Edition \\\(.*\\\) $::yesno :" { send "n\r" }
+            -re "Is the selection above correct\\\? $::yesno:" { send "y\r" }
+            -re "Create shortcuts on Desktop $::yesno:" { send "n\r" }
+            -re "Launch Quartus .* $::yesno:" { send "n\r" }
+            -re "Provide your feedback at .* $::yesno:" { send "n\r" }
+        }
+    }
+}
+
+spawn ./QuartusLiteSetup-17.0.0.595-linux.run --mode text --installdir $installpath
+handle_quartus_setup
