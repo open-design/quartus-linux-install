@@ -16,11 +16,12 @@ proc handle_quartus_setup {} {
     while 1 {
         expect {
             eof { break }
-            -re "Press \\\[Enter\\\] to continue *:" { send "\r" }
             -re "You already had Quartus .* installed in this directory, .*, do you want to update that installation\\\? $::yesno:" { puts ""; exit 1 }
+            -re "Press \\\[Enter\\\] to continue *:" { send "\r" }
             -re "Do you accept this license\\\? $::yesno:" { send "y\r" }
             -re "Installation \[Dd\]irectory \\\[.*\\\]:" { send "\r" }
             -re "$::qple *$::yesno :" { send "y\r" }
+
             -re "$::qple *- Quartus Prime Help \\\(.*\\\) $::yesno :" { send "y\r" }
             -re "$::qple *- Devices $::yesno :" { send "y\r" }
             -re "$::qple *- Devices - Arria II \\\(.*\\\) $::yesno :" { send "n\r" }
