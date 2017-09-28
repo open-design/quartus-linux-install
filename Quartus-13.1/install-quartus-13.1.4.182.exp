@@ -60,6 +60,6 @@ while 1 {
         "Please choose an option \\\[1\\\] :" { send "\r" }
         # Alas! The '--installdir' option does not work.
         -re "Specify installation to update \\\[.*\\\]:" { send $installpath; send "\r" }
-        "Allow patches to be uninstalled $::yesno:" { send "y\r" }
+        "Allow patches to be uninstalled $::yesno:" { send "n\r" }
     }
 }
