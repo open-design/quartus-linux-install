@@ -5,41 +5,61 @@ if { $::argc != 1 } {
     exit 1
 }
 
+set ::env(DISPLAY) ""
+
 set installpath [lindex $::argv 0]
 
-spawn ./QuartusSetupWeb-13.1.0.162.run --mode text --installdir $installpath
-while 1 {
-    expect {
-        eof { break }
-        -re "Press \\\[Enter\\\] to continue *:" { send "\r" }
-        "Do you accept this license? \\\[y/n\\\]:" { send "y\r" }
-        -re "You already had Quartus II Web Edition.*installed in this directory, " { puts ""; exit }
-        "Quartus II Web Edition (Free)  \\\[Y/n\\\] :" { send "y\r" }
-        "Installation directory \\\[$installpath\\\]:" { send "\r" }
-        "Quartus II Web Edition (Free)  - Quartus II Software 64-bit support (1189MB) \\\[Y/n\\\] :" { send "y\r" }
-        "Quartus II Web Edition (Free)  - Devices \\\[Y/n\\\] :" { send "y\r" }
-        "Quartus II Web Edition (Free)  - Devices - Arria II (482.0MB) \\\[Y/n\\\] :" { send "n\r" }
-        "Quartus II Web Edition (Free)  - Devices - Cyclone III/IV (592.0MB) \\\[Y/n\\\] :" { send "y\r" }
-        "Quartus II Web Edition (Free)  - Devices - Cyclone V (819.9MB) \\\[Y/n\\\] :" { send "y\r" }
-        "Quartus II Web Edition (Free)  - Devices - MAX II/V (7.7MB) \\\[Y/n\\\] :" { send "y\r" }
-        "ModelSim-Altera Starter Edition (Free) (3689.3MB) \\\[Y/n\\\] :" { send "n\r" }
-        "ModelSim-Altera Edition (3689.3MB) \\\[y/N\\\] :" { send "n\r" }
-        "Is the selection above correct? \\\[Y/n\\\]:" { send "y\r" }
-        "Create shortcuts on Desktop \\\[Y/n\\\]:" { send "n\r" }
-        "Launch Quartus II (64-bit) \\\[Y/n\\\]:" { send "n\r" }
-        "Provide your feedback at http://software.altera.com/feedback/13.1/installer \\\[y/N\\\]:" { send "n\r" }
+set yesno "\\\[\[Yy\]/\[Nn\]\\\]"
+set q2we "Quartus II Web Edition \\\(Free\\\)"
+
+proc handle_quartus_setup {} {
+    while 1 {
+        expect {
+            eof { break }
+            -re "Press \\\[Enter\\\] to continue *:" { send "\r" }
+            -re "You already had Quartus .* installed in this directory, .*, do you want to update that installation\\\? $::yesno:" {
+                puts ""
+                exit 1
+            }
+            -re "Warning: You don't have enough disk space in .* to install this " {
+                expect {
+                    -re "Press \\\[Enter\\\] to continue *:" {
+                        puts ""
+                        exit 1
+                    }
+                }
+            }
+            -re "Do you accept this license\\\? $::yesno:" { send "y\r" }
+            -re "Installation \[Dd\]irectory \\\[.*\\\]:" { send "\r" }
+            -re "$::q2we *$::yesno :" { send "y\r" }
+            -re "$::q2we *- Quartus II Software 64-bit support \\\(.*\\\) $::yesno :" { send "y\r" }
+            -re "$::q2we *- Devices $::yesno :" { send "y\r" }
+            -re "$::q2we *- Devices - Arria II \\\(.*\\\) $::yesno :" { send "n\r" }
+            -re "$::q2we *- Devices - Cyclone III/IV \\\(.*\\\) $::yesno :" { send "y\r" }
+            -re "$::q2we *- Devices - Cyclone V \\\(.*\\\) $::yesno :" { send "y\r" }
+            -re "$::q2we *- Devices - MAX II/V \\\(.*\\\) $::yesno :" { send "y\r" }
+            -re "ModelSim-Altera Starter Edition \\\(Free\\\) \\\(.*\\\) $::yesno :" { send "n\r" }
+            -re "ModelSim-Altera Edition \\\(.*\\\) $::yesno :" { send "n\r" }
+            -re "Is the selection above correct\\\? $::yesno:" { send "y\r" }
+            -re "Create shortcuts on Desktop $::yesno:" { send "n\r" }
+            -re "Launch Quartus .* $::yesno:" { send "n\r" }
+            -re "Provide your feedback at .* $::yesno:" { send "n\r" }
+        }
     }
 }
+
+spawn ./QuartusSetupWeb-13.1.0.162.run --mode text --installdir $installpath
+handle_quartus_setup
 
 spawn ./QuartusSetup-13.1.4.182.run --mode text
 while 1 {
     expect {
         eof { break }
         -re "Press \\\[Enter\\\] to continue *:" { send "\r" }
-        "Do you accept this license? \\\[y/n\\\]:" { send "y\r" }
+        -re "Do you accept this license\\\? $::yesno:" { send "y\r" }
         "Please choose an option \\\[1\\\] :" { send "\r" }
         # Alas! The '--installdir' option does not work.
-        "Specify installation to update \\\[\\\]:" { send $installpath; send "\r" }
-        "Allow patches to be uninstalled \\\[Y/n\\\]:" { send "y\r" }
+        -re "Specify installation to update \\\[.*\\\]:" { send $installpath; send "\r" }
+        "Allow patches to be uninstalled $::yesno:" { send "y\r" }
     }
 }
