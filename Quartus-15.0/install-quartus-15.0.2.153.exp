@@ -24,7 +24,7 @@ while 1 {
         "Quartus II Web Edition (Free)  - Devices - MAX II/V (12.8MB) \\\[Y/n\\\] :" { send "y\r" }
         "Quartus II Web Edition (Free)  - Devices - MAX 10 FPGA (304.5MB) \\\[Y/n\\\] :" { send "y\r" }
         "Quartus II Web Edition (Free)  - Quartus II Update 15.0.2.153  (3793MB) \\\[Y/n\\\] :" { send "y\r" }
-        "ModelSim-Altera Starter Edition (Free) (3805.7MB) \\\[Y/n\\\] :" { send "y\r" }
+        "ModelSim-Altera Starter Edition (Free) (3805.7MB) \\\[Y/n\\\] :" { send "n\r" }
         "ModelSim-Altera Edition (3805.7MB) \\\[y/N\\\] :" { send "n\r" }
         "Is the selection above correct? \\\[Y/n\\\]:" { send "y\r" }
         "Create shortcuts on Desktop \\\[Y/n\\\]:" { send "n\r" }

@@ -22,7 +22,7 @@ while 1 {
         "Quartus Prime Lite Edition (Free)  - Devices - Cyclone V (1196.9MB) \\\[Y/n\\\] :" { send "y\r" }
         "Quartus Prime Lite Edition (Free)  - Devices - MAX II/V (13.1MB) \\\[Y/n\\\] :" { send "y\r" }
 	"Quartus Prime Lite Edition (Free)  - Devices - MAX 10 FPGA (348.5MB) \\\[Y/n\\\] :" { send "y\r" }
-	"ModelSim-Altera Starter Edition (Free) (4049.7MB) \\\[Y/n\\\] :" { send "y\r" }
+	"ModelSim-Altera Starter Edition (Free) (4049.7MB) \\\[Y/n\\\] :" { send "n\r" }
 	"ModelSim-Altera Edition (4049.7MB) \\\[y/N\\\] :" { send "n\r" }
         "Is the selection above correct? \\\[Y/n\\\]:" { send "y\r" }
         "Create shortcuts on Desktop \\\[Y/n\\\]:" { send "n\r" }

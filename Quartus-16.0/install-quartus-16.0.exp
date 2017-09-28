@@ -28,7 +28,7 @@ proc handle_quartus_setup {installpath} {
             "Quartus Prime Lite Edition (Free)  - Devices - MAX II/V (13.0MB) $::yesno :" { send "y\r" }
             "Quartus Prime Lite Edition (Free)  - Devices - MAX 10 FPGA (350.4MB) $::yesno :" { send "y\r" }
             "Quartus Prime Lite Edition (Free)  - Quartus Prime Update 16.0.1.218  (8530MB) $::yesno :" { send "n\r" }
-            "ModelSim-Altera Starter Edition (Free) (4678.7MB) $::yesno :" { send "y\r" }
+            "ModelSim-Altera Starter Edition (Free) (4678.7MB) $::yesno :" { send "n\r" }
             "ModelSim-Altera Edition (4678.7MB) $::yesno :" { send "n\r" }
             "Is the selection above correct? $::yesno:" { send "y\r" }
             "Create shortcuts on Desktop $::yesno:" { send "n\r" }
